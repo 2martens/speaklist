@@ -31,6 +31,7 @@ setup(
     name="twomartens.speaklist",
     description="Helps with the management of a speaklist.",
     long_description=long_desc,
+    long_description_content_type="text/x-rst; charset=UTF-8",
     author="Jim Martens",
     author_email="github@2martens.de",
     url="https://github.com/2martens/speaklist",
