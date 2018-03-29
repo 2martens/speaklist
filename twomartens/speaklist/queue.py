@@ -15,15 +15,23 @@
 #   limitations under the License.
 
 """speaklist.queue: provides the queue class"""
+from abc import abstractmethod
 from collections import Iterator, MutableSequence
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Any
 
 
 class Queue(MutableSequence):
     """Implements a priority queue with multiple priorities considered."""
     
-    def __init__(self) -> None:
+    def __init__(self, priorities: List['Priority']) -> None:
+        """
+        Initializes the priority queue.
+        
+        :param priorities: list of Priorities to consider
+        """
         self._speakers = []
+        self._priorityData = []
+        self._priorities = priorities
     
     def add(self, speaker: Tuple[str, bool]) -> None:
         pass
@@ -57,3 +65,33 @@ class Queue(MutableSequence):
     
     def __delitem__(self, key: Union[int, slice]) -> None:
         self._speakers.__delitem__(key)
+
+
+class Priority:
+    """Defines an abstract class for priorities for the queue."""
+    
+    @abstractmethod
+    def is_valid_list(self, queue: List[Any]) -> bool:
+        """Checks if given list is valid.
+        
+        :param queue: list with priority data for this priority
+        :return: True if the given list is valid
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def sort(self, queue: List[Any]) -> List[int]:
+        """Given a list with priority data the method returns the sorted list of keys.
+        
+        :param queue: list with priority data for this priority
+        :return: sorted list of keys
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def gettype(self) -> Any:
+        """Returns the type for the priority data of this priority.
+        
+        :return: any type
+        """
+        raise NotImplementedError
