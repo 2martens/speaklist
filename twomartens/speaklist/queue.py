@@ -83,6 +83,33 @@ class Queue(MutableSequence):
         self._speakers.insert(index, value[0])
         self._priorityData.insert(index, priority_data)
     
+    def append(self, value: List[Any]) -> None:
+        """
+        Appends a new speaker at the end of the queue (without enforcing prioritization).
+        
+        :param value: list of name and priority data
+        """
+        priority_data = []
+        i = 1
+        for priority in self._priorities:
+            if not priority.is_valid_insert(self._get_priority_data()[priority], value[i]):
+                raise ValueError
+            priority_data += value[i]
+            i += 1
+        self._speakers.append(value[0])
+        self._priorityData.append(priority_data)
+    
+    def pop(self, index=0) -> str:
+        """
+        Pops the next speaker from the queue.
+        
+        :param index: not used by this implementation
+        :return: name of the next speaker
+        """
+        speaker = self._speakers.popleft()
+        self._priorityData.popleft()
+        return speaker
+    
     def _get_priority_data(self) -> Dict['Priority', List[Any]]:
         i = 0
         priority_data = {}
