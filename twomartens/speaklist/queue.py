@@ -29,8 +29,8 @@ class Queue(MutableSequence):
         
         :param priorities: list of Priorities to consider
         """
-        self._speakers = []
-        self._priorityData = []
+        self._speakers = []  # type: List[str]
+        self._priorityData = []  # type: List[list]
         self._priorities = priorities
     
     def add(self, speaker: Tuple[str, bool]) -> None:
@@ -39,14 +39,20 @@ class Queue(MutableSequence):
     def add_list(self, speakers: List[Tuple[str, bool]]) -> None:
         pass
     
-    def insert(self, index: int, value: str) -> None:
+    def insert(self, index: int, value: list) -> None:
         """
-        Inserts a new speaker at specified index.
+        Inserts a new speaker at specified index (without enforcing proper prioritization).
         
         :param index: position on speak list
-        :param value: name of speaker
+        :param value: list of name and priority data
         """
-        self._speakers.insert(index, value)
+        self._speakers.insert(index, value[0])
+        priority_data = []
+        i = 1
+        for _ in self._priorities:
+            priority_data += value[i]
+            i += 1
+        self._priorityData.insert(index, priority_data)
     
     def __iter__(self) -> Iterator:
         return iter(self._speakers)
@@ -57,14 +63,21 @@ class Queue(MutableSequence):
     def __contains__(self, item: str) -> bool:
         return item in self._speakers
     
-    def __getitem__(self, index: int) -> str:
-        return self._speakers[index]
+    def __getitem__(self, index: Union[int, slice]) -> str:
+        return self._speakers.__getitem__(index)
     
-    def __setitem__(self, key: Union[int, slice], value: str) -> None:
-        self._speakers.__setitem__(key, value)
+    def __setitem__(self, key: Union[int, slice], value: list) -> None:
+        self._speakers.__setitem__(key, value[0])
+        priority_data = []
+        i = 1
+        for _ in self._priorities:
+            priority_data += value[i]
+            i += 1
+        self._priorityData.__setitem__(key, priority_data)
     
     def __delitem__(self, key: Union[int, slice]) -> None:
         self._speakers.__delitem__(key)
+        self._priorityData.__delitem__(key)
 
 
 class Priority:
