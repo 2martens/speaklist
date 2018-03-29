@@ -192,5 +192,5 @@ class TestFITSoftPriority(TestCase):
         """
         new_data = []
         for index in sorted_indices:
-            new_data += data[index]
+            new_data.append(data[index])
         return new_data

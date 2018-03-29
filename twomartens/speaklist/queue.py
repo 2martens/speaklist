@@ -42,7 +42,7 @@ class Queue(MutableSequence):
         for priority in self._priorities:
             priority_data = []
             for data in self._priorityData:
-                priority_data += data[i]
+                priority_data.append(data[i])
             i += 1
             if not priority.is_valid_list(priority_data):
                 return False
@@ -55,14 +55,14 @@ class Queue(MutableSequence):
         for priority in self._priorities:
             priority_data = []
             for data in self._priorityData:
-                priority_data += data[i]
+                priority_data.append(data[i])
             i += 1
             sorted_indices = priority.sort(priority_data)
             new_priority_data = []
             new_speakers = []
             for index in sorted_indices:
-                new_priority_data += self._priorityData[index]
-                new_speakers += self._speakers[index]
+                new_priority_data.append(self._priorityData[index])
+                new_speakers.append(self._speakers[index])
             self._priorityData = new_priority_data
             self._speakers = new_speakers
     
@@ -78,7 +78,7 @@ class Queue(MutableSequence):
         for priority in self._priorities:
             if not priority.is_valid_insert(self._get_priority_data()[priority], value[i]):
                 raise ValueError
-            priority_data += value[i]
+            priority_data.append(value[i])
             i += 1
         self._speakers.insert(index, value[0])
         self._priorityData.insert(index, priority_data)
@@ -94,7 +94,7 @@ class Queue(MutableSequence):
         for priority in self._priorities:
             if not priority.is_valid_insert(self._get_priority_data()[priority], value[i]):
                 raise ValueError
-            priority_data += value[i]
+            priority_data.append(value[i])
             i += 1
         self._speakers.append(value[0])
         self._priorityData.append(priority_data)
@@ -116,7 +116,7 @@ class Queue(MutableSequence):
         for priority in self._priorities:
             __priority_data = []
             for data in self._priorityData:
-                __priority_data += data[i]
+                __priority_data.append(data[i])
             i += 1
             priority_data[priority] = __priority_data
         return priority_data
