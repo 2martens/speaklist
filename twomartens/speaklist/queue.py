@@ -33,11 +33,38 @@ class Queue(MutableSequence):
         self._priorityData = []  # type: List[list]
         self._priorities = priorities
     
-    def add(self, speaker: Tuple[str, bool]) -> None:
-        pass
+    def is_prioritized(self) -> bool:
+        """Checks if the queue is properly prioritized.
+        
+        :return: True if the queue is prioritized
+        """
+        i = 0
+        for priority in self._priorities:
+            priority_data = []
+            for data in self._priorityData:
+                priority_data += data[i]
+            i += 1
+            if not priority.is_valid_list(priority_data):
+                return False
+        
+        return True
     
-    def add_list(self, speakers: List[Tuple[str, bool]]) -> None:
-        pass
+    def prioritize(self) -> None:
+        """Inplace prioritization of queue."""
+        i = 0
+        for priority in self._priorities:
+            priority_data = []
+            for data in self._priorityData:
+                priority_data += data[i]
+            i += 1
+            sorted_indices = priority.sort(priority_data)
+            new_priority_data = []
+            new_speakers = []
+            for index in sorted_indices:
+                new_priority_data += self._priorityData[index]
+                new_speakers += self._speakers[index]
+            self._priorityData = new_priority_data
+            self._speakers = new_speakers
     
     def insert(self, index: int, value: list) -> None:
         """
