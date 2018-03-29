@@ -17,7 +17,7 @@
 """speaklist.queue: provides the queue class"""
 from abc import abstractmethod
 from collections import Iterator, MutableSequence
-from typing import List, Tuple, Union, Any
+from typing import List, Union, Any
 
 
 class Queue(MutableSequence):
