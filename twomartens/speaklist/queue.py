@@ -135,3 +135,29 @@ class Priority:
         :return: any type
         """
         raise NotImplementedError
+
+
+class FirstSpeakerPriority(Priority):
+    """Defines the first speaker priority."""
+
+    def is_valid_list(self, queue: List[str]) -> bool:
+        pass
+
+    def sort(self, queue: List[str]) -> List[int]:
+        pass
+
+    def gettype(self) -> type:
+        return type(str)
+
+
+class FITPriority(Priority):
+    """Defines the FIT priority."""
+
+    def is_valid_list(self, queue: List[bool]) -> bool:
+        pass
+
+    def sort(self, queue: List[bool]) -> List[int]:
+        pass
+
+    def gettype(self) -> type:
+        return type(bool)
