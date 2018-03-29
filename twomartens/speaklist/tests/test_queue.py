@@ -115,12 +115,12 @@ class TestFITSoftPriority(TestCase):
             )
         )
         # case 5: FIT person on list but not in right location
-        self.assertFalse(
+        self.assertTrue(
             self._priority.is_valid_list(
                 self._sort_data(self._priority.sort([False, False, True]), [False, False, True])
             )
         )
-        self.assertFalse(
+        self.assertTrue(
             self._priority.is_valid_list(
                 self._sort_data(self._priority.sort([False, False, False, False, True]),
                                 [False, False, False, False, True])
@@ -138,19 +138,19 @@ class TestFITSoftPriority(TestCase):
             )
         )
         # case 7: more than one FIT person, first one OK, others not
-        self.assertFalse(
+        self.assertTrue(
             self._priority.is_valid_list(
                 self._sort_data(self._priority.sort([False, True, False, False, True]),
                                 [False, True, False, False, True])
             )
         )
-        self.assertFalse(
+        self.assertTrue(
             self._priority.is_valid_list(
                 self._sort_data(self._priority.sort([True, False, False, False, True]),
                                 [True, False, False, False, True])
             )
         )
-        self.assertFalse(
+        self.assertTrue(
             self._priority.is_valid_list(
                 self._sort_data(self._priority.sort([True, False, False, True, False]),
                                 [True, False, False, True, False])
