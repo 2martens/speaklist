@@ -29,15 +29,15 @@ class TestQueue(TestCase):
         ]
         self._queue = Queue(priorities)
     
-    def test_initialization(self):
+    def test_initialization(self) -> None:
         self.assertEqual(0, len(self._queue))
         self.assertTrue(self._queue.is_prioritized())
     
-    def test_prioritize(self):
+    def test_prioritize(self) -> None:
         self._queue.prioritize()
         self.assertTrue(self._queue.is_prioritized())
     
-    def test_insert(self):
+    def test_insert(self) -> None:
         new_speaker = [
             'Speaker 1',
             'speaker 1',
