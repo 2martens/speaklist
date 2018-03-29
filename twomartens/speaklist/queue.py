@@ -20,6 +20,19 @@ from collections import Iterator, MutableSequence, deque
 from typing import List, Union, Any, Dict
 
 
+def sort_data(sorted_indices: List[int], data: List[Any]) -> List[Any]:
+    """Sorts the data using given indices.
+
+    :param sorted_indices: sorted indices
+    :param data: data
+    :return: sorted data
+    """
+    new_data = []
+    for index in sorted_indices:
+        new_data.append(data[index])
+    return new_data
+
+
 class Queue(MutableSequence):
     """Implements a priority queue with multiple priorities considered."""
     
