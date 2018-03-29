@@ -15,10 +15,11 @@
 #   limitations under the License.
 
 """speaklist.queue: provides the queue class"""
-from typing import List, Tuple
+from collections import Iterator, MutableSequence
+from typing import List, Tuple, Union
 
 
-class Queue:
+class Queue(MutableSequence):
     """Implements a priority queue with multiple priorities considered."""
     
     def __init__(self) -> None:
@@ -30,8 +31,29 @@ class Queue:
     def add_list(self, speakers: List[Tuple[str, bool]]) -> None:
         pass
     
-    def get_next(self) -> str:
-        pass
+    def insert(self, index: int, value: str) -> None:
+        """
+        Inserts a new speaker at specified index.
+        
+        :param index: position on speak list
+        :param value: name of speaker
+        """
+        self._speakers.insert(index, value)
     
-    def get_all(self) -> List[str]:
-        pass
+    def __iter__(self) -> Iterator:
+        return iter(self._speakers)
+    
+    def __len__(self) -> int:
+        return len(self._speakers)
+    
+    def __contains__(self, item: str) -> bool:
+        return item in self._speakers
+    
+    def __getitem__(self, index: int) -> str:
+        return self._speakers[index]
+    
+    def __setitem__(self, key: Union[int, slice], value: str) -> None:
+        self._speakers.__setitem__(key, value)
+    
+    def __delitem__(self, key: Union[int, slice]) -> None:
+        self._speakers.__delitem__(key)
