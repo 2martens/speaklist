@@ -16,7 +16,7 @@
 
 """speaklist.queue: provides the queue class"""
 from abc import abstractmethod
-from collections import Iterator, MutableSequence, deque
+from collections import Iterator, MutableSequence, deque, Counter
 from typing import List, Union, Any, Dict
 
 
@@ -206,7 +206,25 @@ class FirstSpeakerPriority(Priority):
     """Defines the first speaker priority."""
     
     def is_valid_list(self, queue: List[str]) -> bool:
-        pass
+        length = len(queue)
+        if length < 3:
+            return True
+        
+        max_counter = Counter(queue)
+        current_counter = {}
+        
+        for speaker in queue:
+            if speaker not in current_counter:
+                current_counter[speaker] = 1
+            else:
+                for potential_speaker in max_counter:
+                    if potential_speaker == speaker:
+                        continue
+                    if potential_speaker not in current_counter:
+                        return False
+                current_counter[speaker] += 1
+        
+        return True
 
     def sort(self, queue: List[str]) -> List[int]:
         pass
