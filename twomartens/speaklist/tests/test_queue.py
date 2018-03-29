@@ -47,6 +47,101 @@ class TestQueue(TestCase):
         self.assertTrue('Speaker 1' in self._queue)
 
 
+class TestFirstSpeakerPriority(TestCase):
+    """Tests the FirstSpeakerPriority."""
+    def setUp(self) -> None:
+        """Sets up the test case."""
+        self._priority = FirstSpeakerPriority()
+    
+    def test_type(self) -> None:
+        self.assertEqual(type(str), self._priority.gettype())
+    
+    def test_is_valid_list(self) -> None:
+        # always assuming that list only contains speakers to come
+        # case 1: empty list
+        self.assertTrue(self._priority.is_valid_list([]))
+        # case 2: one person on list
+        self.assertTrue(self._priority.is_valid_list(['anyone']))
+        # case 3: two persons on list
+        self.assertTrue(self._priority.is_valid_list(['anyone', 'anyone2']))
+        self.assertTrue(self._priority.is_valid_list(['anyone', 'anyone']))
+        # case 4: one person speaks twice, another person once, correctly ordered
+        self.assertTrue(self._priority.is_valid_list(['anyone1', 'anyone2', 'anyone1']))
+        self.assertTrue(self._priority.is_valid_list(['anyone2', 'anyone1', 'anyone1']))
+        # case 5: one person speaks twice, another person once, wrongly ordered
+        self.assertFalse(self._priority.is_valid_list(['anyone1', 'anyone1', 'anyone2']))
+        # case 6: everyone speaks once
+        self.assertTrue(self._priority.is_valid_list(['anyone1', 'anyone2', 'anyone3', 'alpha']))
+        # case 7: 3 people speaking, first part correct, second wrong
+        self.assertFalse(self._priority.is_valid_list(['anyone1', 'anyone2', 'anyone1', 'alpha']))
+        # case 8: 3 people speaking, all OK
+        self.assertTrue(self._priority.is_valid_list(['anyone1', 'anyone2', 'alpha', 'anyone1']))
+        
+    def test_sort(self) -> None:
+        # always assuming that list only contains speakers to come
+        # case 1: empty list
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort([]), [])
+            )
+        )
+        # case 2: one person on list
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone']), ['anyone'])
+            )
+        )
+        # case 3: two persons on list
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone', 'anyone2']), ['anyone', 'anyone2'])
+            )
+        )
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone', 'anyone']), ['anyone', 'anyone'])
+            )
+        )
+        # case 4: one person speaks twice, another person once, correctly ordered
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone1', 'anyone2', 'anyone1']), ['anyone1', 'anyone2', 'anyone1'])
+            )
+        )
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone2', 'anyone1', 'anyone1']), ['anyone2', 'anyone1', 'anyone1'])
+            )
+        )
+        # case 5: one person speaks twice, another person once, wrongly ordered
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone1', 'anyone1', 'anyone2']), ['anyone1', 'anyone1', 'anyone2'])
+            )
+        )
+        # case 6: everyone speaks once
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone1', 'anyone2', 'anyone3', 'alpha']),
+                          ['anyone1', 'anyone2', 'anyone3', 'alpha'])
+            )
+        )
+        # case 7: 3 people speaking, first part correct, second wrong
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone1', 'anyone2', 'anyone1', 'alpha']),
+                          ['anyone1', 'anyone2', 'anyone1', 'alpha'])
+            )
+        )
+        # case 8: 3 people speaking, all OK
+        self.assertTrue(
+            self._priority.is_valid_list(
+                sort_data(self._priority.sort(['anyone1', 'anyone2', 'alpha', 'anyone1']),
+                          ['anyone1', 'anyone2', 'alpha', 'anyone1'])
+            )
+        )
+
+
 class TestFITSoftPriority(TestCase):
     """Tests the FITSoftPriority."""
     def setUp(self) -> None:
