@@ -150,8 +150,8 @@ class FirstSpeakerPriority(Priority):
         return type(str)
 
 
-class FITPriority(Priority):
-    """Defines the FIT priority."""
+class FITSoftPriority(Priority):
+    """Defines a soft FIT priority."""
 
     def is_valid_list(self, queue: List[bool]) -> bool:
         pass
