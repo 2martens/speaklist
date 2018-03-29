@@ -129,7 +129,7 @@ class Priority:
         raise NotImplementedError
     
     @abstractmethod
-    def gettype(self) -> Any:
+    def gettype(self) -> type:
         """Returns the type for the priority data of this priority.
         
         :return: any type
