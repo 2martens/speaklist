@@ -16,7 +16,7 @@
 
 from unittest import TestCase
 
-from speaklist.queue import Queue
+from twomartens.speaklist.queue import Queue
 
 
 class TestQueue(TestCase):
