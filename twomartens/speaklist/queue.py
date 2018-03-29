@@ -191,7 +191,7 @@ class Priority:
 
 class FirstSpeakerPriority(Priority):
     """Defines the first speaker priority."""
-
+    
     def is_valid_list(self, queue: List[str]) -> bool:
         pass
 
@@ -200,6 +200,9 @@ class FirstSpeakerPriority(Priority):
 
     def gettype(self) -> type:
         return type(str)
+    
+    def is_valid_insert(self, queue: List[Any], item: Any) -> bool:
+        return True
 
 
 class FITSoftPriority(Priority):
