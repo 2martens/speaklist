@@ -16,7 +16,7 @@
 
 """speaklist.queue: provides the queue class"""
 from abc import abstractmethod
-from collections import Iterator, MutableSequence
+from collections import Iterator, MutableSequence, deque
 from typing import List, Union, Any, Dict
 
 
@@ -29,8 +29,8 @@ class Queue(MutableSequence):
         
         :param priorities: list of Priorities to consider
         """
-        self._speakers = []  # type: List[str]
-        self._priorityData = []  # type: List[list]
+        self._speakers = deque()  # type: deque
+        self._priorityData = deque()  # type: deque
         self._priorities = priorities
     
     def is_prioritized(self) -> bool:
