@@ -225,21 +225,21 @@ class FITSoftPriority(Priority):
         length = len(queue)
         if length < 3:
             return True
-        else:
-            number_of_FIT = queue.count(True)
-            counter = 0
-            for value in queue:
-                if number_of_FIT == 0:
-                    return counter == 0
-                if number_of_FIT > 0 and counter < -1:
-                    return False
-                if value:
-                    if counter < 0:
-                        counter += 1
-                    number_of_FIT -= 1
-                else:
-                    counter -= 1
-            return counter == 0
+        
+        number_of_FIT = queue.count(True)
+        counter = 0
+        for value in queue:
+            if number_of_FIT == 0:
+                return counter == 0
+            if number_of_FIT > 0 and counter < -1:
+                return False
+            if value:
+                if counter < 0:
+                    counter += 1
+                number_of_FIT -= 1
+            else:
+                counter -= 1
+        return counter == 0
 
     def sort(self, queue: List[bool]) -> List[int]:
         indices = []
