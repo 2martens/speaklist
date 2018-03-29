@@ -226,7 +226,43 @@ class FITSoftPriority(Priority):
             return counter == 0
 
     def sort(self, queue: List[bool]) -> List[int]:
-        return []
+        indices = []
+        true_indices = deque()
+        false_indices = deque()
+        index = 0
+        for value in queue:
+            indices.append(index)
+            if value:
+                true_indices.append(index)
+            else:
+                false_indices.append(index)
+            index += 1
+        
+        if self.is_valid_list(queue):
+            return indices
+            
+        indices = []
+        number_of_FIT = len(true_indices)
+        step = 0
+        while number_of_FIT > 0:
+            if step % 2 == 0:
+                # step 1: take FIT person
+                index = true_indices.popleft()
+                indices.append(index)
+                number_of_FIT -= 1
+            else:
+                try:
+                    index = false_indices.popleft()
+                    indices.append(index)
+                except IndexError:
+                    break
+            step += 1
+        if number_of_FIT > 0:
+            indices.extend(true_indices)
+        else:
+            indices.extend(false_indices)
+        
+        return indices
 
     def gettype(self) -> type:
         return type(bool)
