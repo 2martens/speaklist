@@ -17,7 +17,7 @@
 """speaklist.queue: provides the queue class"""
 from abc import abstractmethod
 from collections import Iterator, MutableSequence
-from typing import List, Union, Any
+from typing import List, Union, Any, Dict
 
 
 class Queue(MutableSequence):
@@ -73,13 +73,26 @@ class Queue(MutableSequence):
         :param index: position on speak list
         :param value: list of name and priority data
         """
-        self._speakers.insert(index, value[0])
         priority_data = []
         i = 1
-        for _ in self._priorities:
+        for priority in self._priorities:
+            if not priority.is_valid_insert(self._get_priority_data()[priority], value[i]):
+                raise ValueError
             priority_data += value[i]
             i += 1
+        self._speakers.insert(index, value[0])
         self._priorityData.insert(index, priority_data)
+    
+    def _get_priority_data(self) -> Dict['Priority', List[Any]]:
+        i = 0
+        priority_data = {}
+        for priority in self._priorities:
+            __priority_data = []
+            for data in self._priorityData:
+                __priority_data += data[i]
+            i += 1
+            priority_data[priority] = __priority_data
+        return priority_data
     
     def __iter__(self) -> Iterator:
         return iter(self._speakers)
@@ -94,12 +107,14 @@ class Queue(MutableSequence):
         return self._speakers.__getitem__(index)
     
     def __setitem__(self, key: Union[int, slice], value: list) -> None:
-        self._speakers.__setitem__(key, value[0])
         priority_data = []
         i = 1
-        for _ in self._priorities:
+        for priority in self._priorities:
+            if not priority.is_valid_insert(self._get_priority_data()[priority], value[i]):
+                raise ValueError
             priority_data += value[i]
             i += 1
+        self._speakers.__setitem__(key, value[0])
         self._priorityData.__setitem__(key, priority_data)
     
     def __delitem__(self, key: Union[int, slice]) -> None:
@@ -133,6 +148,16 @@ class Priority:
         """Returns the type for the priority data of this priority.
         
         :return: any type
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def is_valid_insert(self, queue: List[Any], item: Any) -> bool:
+        """Given a list with priority data and the priority data of the new item it returns if the new item is allowed.
+        
+        :param queue: list with priority data for this priority
+        :param item: priority data of new item
+        :return: True if new item is allowed
         """
         raise NotImplementedError
 
@@ -178,3 +203,6 @@ class FITSoftPriority(Priority):
 
     def gettype(self) -> type:
         return type(bool)
+    
+    def is_valid_insert(self, queue: List[bool], item: bool) -> bool:
+        return True
